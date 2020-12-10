@@ -1,0 +1,25 @@
+{
+  "name": "TicTacToe-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TicTacToe-Group-RMT6/TicTacToe-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TicTacToe-Group-RMT6/TicTacToe-server/issues"
+  },
+  "homepage": "https://github.com/TicTacToe-Group-RMT6/TicTacToe-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
