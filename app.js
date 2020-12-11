@@ -23,6 +23,10 @@ io.on('connect', function(socket) {
         console.log(payload)
     })
 
+    socket.on('leaveRoom', (room) => {
+        socket.leave(room)
+    })
+
     socket.on('joinRoom', (room) => {
         if (Object.keys(io.sockets.adapter.rooms).includes(room)){
             let length = Object.keys(io.sockets.adapter.rooms[room].sockets).length
@@ -48,8 +52,6 @@ io.on('connect', function(socket) {
             socket.emit('updateCurrRoom',room)
             rooms.push(room)
         }
-        
-        
     })
 
     socket.on('gameBoard', function(payload) {
@@ -61,7 +63,6 @@ io.on('connect', function(socket) {
         console.log(players, "<<<< players")
         console.log(socket.id, '<<<< socketid')
         console.log(player0, "<<<< player0")
-
 
         if (socket.id === players[0] && propertyRoom[payload.room]['player0']){
             clickable = true
@@ -77,9 +78,9 @@ io.on('connect', function(socket) {
         }
         
         if(clickable){
-            if(propertyRoom[payload.room]['player0']){
+            if(propertyRoom[payload.room]['player0'] && propertyRoom[payload.room]['board'][payload.row][payload.col] === ''){
                 propertyRoom[payload.room]['board'][payload.row][payload.col] = 'X'
-            }else{
+            }else if(!propertyRoom[payload.room]['player0'] && propertyRoom[payload.room]['board'][payload.row][payload.col] === ''){
                 propertyRoom[payload.room]['board'][payload.row][payload.col] = 'O'
             }
             console.table(board)
@@ -99,7 +100,6 @@ io.on('connect', function(socket) {
         
     })
 })
-
 
 server.listen(port, () => {
     console.log(`Listening to port : http://localhost:${port}`)
