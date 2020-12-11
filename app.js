@@ -14,7 +14,6 @@ let board = {
         ]
 }
 
-
 let propertyRoom = {}
 let player0 = true;
 
@@ -42,7 +41,7 @@ io.on('connect', function(socket) {
                 ['', '', ''],
                 ['', '', '']
             ]
-
+            propertyRoom[room]['player0'] = true
             
             propertyRoom[room]['players'] = [socket.id]
             socket.join(room)
@@ -54,7 +53,6 @@ io.on('connect', function(socket) {
     })
 
     socket.on('gameBoard', function(payload) {
-        
         //console.table(board)
         //console.log(payload.row, payload.col)
         const players = Object.keys(io.sockets.adapter.rooms[payload.room].sockets)
@@ -65,13 +63,13 @@ io.on('connect', function(socket) {
         console.log(player0, "<<<< player0")
 
 
-        if (socket.id === players[0] && player0){
+        if (socket.id === players[0] && propertyRoom[payload.room]['player0']){
             clickable = true
-            player0 = false
+            propertyRoom[payload.room]['player0'] = false
             console.log('kondisi1')
-        }else if(socket.id === players[1] && !player0){
+        }else if(socket.id === players[1] && !propertyRoom[payload.room]['player0']){
             clickable = true
-            player0 = true
+            propertyRoom[payload.room]['player0'] = true
             console.log('kondisi2')
         }else{
             clickable = false
@@ -79,7 +77,7 @@ io.on('connect', function(socket) {
         }
         
         if(clickable){
-            if(player0){
+            if(propertyRoom[payload.room]['player0']){
                 propertyRoom[payload.room]['board'][payload.row][payload.col] = 'X'
             }else{
                 propertyRoom[payload.room]['board'][payload.row][payload.col] = 'O'
