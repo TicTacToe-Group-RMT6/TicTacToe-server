@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const server = require('http').createServer(app)
 const io = require('socket.io')(server);
 const rooms = []
@@ -60,6 +60,7 @@ io.on('connect', function(socket) {
         const players = Object.keys(io.sockets.adapter.rooms[payload.room].sockets)
         let clickable;
 
+        console.log(propertyRoom[payload.room].board)
         console.log(players, "<<<< players")
         console.log(socket.id, '<<<< socketid')
         console.log(player0, "<<<< player0")
